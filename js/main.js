@@ -241,17 +241,16 @@
       chars.forEach(function(c, k){ tl.set(c, { fontWeight: steps[Math.round(k / Math.max(1, n - 1) * 5)] }, at + span * k / n); });
     }
 
-    // 1c. manifesto: una parola alla volta, sempre al centro dello schermo (su mobile restano una sotto l'altra)
+    // 1c. manifesto: un'unica animazione con le tre frasi. Entrano una dopo l'altra e restano visibili insieme, al centro dello schermo
     mm.add('(min-width: 761px)', function(){
       var words = gsap.utils.toArray('.mf-word');
       var t = gsap.timeline({ defaults: { ease: 'none' }, scrollTrigger: { trigger: '.manifesto', start: 'top top', end: 'bottom bottom', scrub: 0.5, invalidateOnRefresh: true } });
       words.forEach(function(w, i){
-        var from = i % 2 ? 12 : -12, at = i * 1.25;
-        t.fromTo(w, { opacity: 0, x: from + 'vw', scale: 0.94 }, { opacity: 1, x: 0, scale: 1, duration: 0.4, ease: 'power2.out' }, at);
+        var from = i % 2 ? 12 : -12, at = i * 0.8;
+        t.fromTo(w, { opacity: 0, x: from + 'vw' }, { opacity: 1, x: 0, duration: 0.55, ease: 'power2.out' }, at);
         weightWave(t, w, at + 0.1, 0.5);
-        if (i < words.length - 1) t.fromTo(w, { opacity: 1, x: 0, scale: 1 }, { opacity: 0, x: (-from) + 'vw', scale: 1.04, duration: 0.4, ease: 'power2.in', immediateRender: false }, at + 0.8);
       });
-      t.to({}, { duration: 0.5 });
+      t.to({}, { duration: 0.9 });
     });
     mm.add('(max-width: 760px)', function(){
       var words = gsap.utils.toArray('.mf-word');
@@ -302,16 +301,6 @@
     ScrollTrigger.addEventListener('refresh', function(){ measure(); render(window.scrollY); });
     measure(); render(window.scrollY);
 
-    // 3. costi: numeri giganti e testi che si incrociano dai lati (reversibile)
-    mm.add('(min-width: 761px)', function(){
-      document.querySelectorAll('.cost-row').forEach(function(row){
-        var dir = row.getAttribute('data-side') === 'left' ? -1 : 1;
-        var t = gsap.timeline({ defaults: { ease: 'none' }, scrollTrigger: { trigger: row, start: 'top 102%', end: 'top 48%', scrub: 0.6 } });
-        t.from(row.querySelector('.cost-num'), { x: dir * 30 + 'vw' }, 0)
-         .from(row.querySelector('.cost-body'), { x: -dir * 22 + 'vw' }, 0);
-      });
-    });
-
     // 3b. brand: le schede arrivano da sinistra a scorrimento, prima l'ultima, poi la centrale, poi la prima.
     //     Partono tutte dalla stessa distanza (come un treno) e sfumano mentre entrano: nessuna passa sotto un'altra
     mm.add('(min-width: 981px)', function(){
@@ -353,7 +342,7 @@
   }
 
   // ---------- caroselli (mobile): puntini che seguono lo scorrimento orizzontale ----------
-  document.querySelectorAll('.brand-track, .cost-list, .eco-bento, .tools-grid, .method-grid, .stat-row, .quote-grid').forEach(function(c){
+  document.querySelectorAll('.brand-track, .cubes, .tools-grid, .method-grid, .stat-row, .quote-grid').forEach(function(c){
     var n = c.children.length; if (n < 2) return;
     var d = document.createElement('div'); d.className = 'h-dots'; d.setAttribute('aria-hidden', 'true');
     for (var i = 0; i < n; i++) d.appendChild(document.createElement('i'));
