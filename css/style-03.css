@@ -1,0 +1,216 @@
+/* Titanium Group, review-07 / index-02: nuovo layout della storia, schede ribaltabili per le tre anime, Dentor che saluta.
+   Si carica DOPO style.css e ne sovrascrive solo le parti indicate. */
+
+/* ---------- bordo sfumato condiviso dalle nuove schede ---------- */
+.chapter::before, .pillar::before, .soul-face::before{ content:''; position:absolute; inset:0; z-index:3; border-radius:inherit; padding:1px; pointer-events:none;
+  background:linear-gradient(90deg, #4b0a26 0%, var(--t-plum) 52%, var(--t-hot) 100%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite:xor; mask-composite:exclude; }
+.eyebrow.center{ text-align:center; margin-bottom:clamp(6px, 1.6vw, 20px); }
+
+/* ================= STORIA A CAPITOLI ================= */
+.about--story .section-head{ margin-bottom:clamp(26px, 3.6vw, 48px); }
+.story-lead{ text-align:center; margin-bottom:clamp(34px, 5vw, 64px); font-family:var(--font-display); font-weight:200; font-size:clamp(1.5rem, 1rem + 1.9vw, 2.7rem); letter-spacing:-.01em; color:var(--ice); }
+.story-lead b{ font-weight:700; }
+.chapters{ --cg:clamp(18px, 3vw, 40px); position:relative; display:grid; grid-template-columns:1fr 1fr; gap:var(--cg); max-width:66rem; margin-inline:auto; }
+.chapter{ position:relative; padding:clamp(24px, 3vw, 40px); border-radius:var(--r); background:var(--glass); }
+.chapter-num{ font-size:clamp(5rem, 3rem + 6vw, 9rem); margin-bottom:.1em; }
+.chapter .eyebrow{ margin-bottom:12px; }
+.chapter p:last-child{ font-size:clamp(1.08rem, 1rem + .35vw, 1.3rem); line-height:1.6; color:var(--ice); }
+.chapter:first-child::after{ content:''; position:absolute; z-index:4; left:100%; top:calc(clamp(5rem, 3rem + 6vw, 9rem) * .5); width:var(--cg); height:1px; background:linear-gradient(90deg, var(--t-hot), rgba(var(--t-glow-rgb), .15)); }
+.story-quote{ max-width:26ch; margin:clamp(40px, 6vw, 92px) auto; text-align:center; text-wrap:balance; font-family:var(--font-display); font-weight:200; font-size:clamp(1.9rem, 1rem + 3.2vw, 4.2rem); line-height:1.1; letter-spacing:-.015em; }
+.story-quote b{ font-weight:700; }
+.identity{ display:grid; grid-template-columns:minmax(0, 1fr) minmax(0, 1fr); gap:clamp(24px, 5vw, 80px); align-items:center; max-width:70rem; margin:0 auto clamp(40px, 6vw, 84px); padding-top:clamp(28px, 4vw, 56px); border-top:1px solid var(--line); }
+.identity-text{ font-size:clamp(1.05rem, .95rem + .4vw, 1.28rem); line-height:1.68; color:var(--ink-soft); }
+.identity-verbs{ font-family:var(--font-display); font-weight:200; font-size:clamp(1.9rem, 1rem + 2.8vw, 3.6rem); line-height:1.1; letter-spacing:-.015em; }
+.identity-verbs span{ display:block; }
+.identity-verbs .grad{ font-weight:700; }
+.pillars-intro{ margin-bottom:22px; text-align:center; font-size:.78rem; font-weight:600; letter-spacing:.2em; text-transform:uppercase; color:var(--t-soft); }
+.pillars{ display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:clamp(14px, 2vw, 24px); }
+.pillar{ position:relative; display:flex; flex-direction:column; padding:clamp(24px, 2.6vw, 34px); border-radius:var(--r); background:var(--glass); container-type:inline-size; }
+.pillar h3{ margin-bottom:14px; line-height:1.05; letter-spacing:-.01em; }
+.pillar h3 .p-art{ display:block; margin-bottom:0; font-weight:200; font-size:clamp(1.3rem, 11cqw, 2.6rem); line-height:1.05; color:var(--ice); }
+.pillar h3 b{ display:block; white-space:nowrap; font-weight:700; font-size:clamp(1.3rem, 11cqw, 2.6rem); }
+.pillar p{ color:var(--ink-soft); }
+@media (max-width:860px){
+  .chapters, .identity, .pillars{ grid-template-columns:1fr; }
+  .chapter:first-child::after{ display:none; }
+  .story-quote{ margin-block:36px; }
+}
+
+/* ================= LE TRE ANIME: schede ribaltabili ================= */
+@media (min-width:1101px){
+  .soul-grid{ display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); grid-template-rows:none; column-gap:clamp(16px, 2.4vw, 32px); row-gap:0; align-items:start; }
+  .soul{ margin-top:clamp(20px, 3.2vw, 48px); }
+  .soul-player{ margin-top:0; }
+}
+.soul{ position:relative; perspective:1800px; outline:none; container-type:inline-size; }
+.soul-inner{ position:relative; width:100%; aspect-ratio:1 / 1.5; transform-style:preserve-3d; transition:transform 900ms var(--ease-drawer); }
+.soul-face{ position:absolute; inset:0; display:flex; flex-direction:column; overflow:hidden; border-radius:var(--r); background:rgba(var(--t-panel-rgb), .92); backface-visibility:hidden; -webkit-backface-visibility:hidden; }
+.soul-player .soul-face{ box-shadow:0 40px 100px -40px rgba(var(--t-glow-rgb), .6); }
+.soul-art{ position:relative; flex:1 1 auto; min-height:0; overflow:hidden; }
+.soul-art img{ width:100%; height:100%; object-fit:cover; }
+.soul-art::after{ content:''; position:absolute; inset:0; background:linear-gradient(0deg, rgba(0,0,0,.85) 0%, rgba(0,0,0,0) 55%); }
+.soul .soul-num{ position:absolute; z-index:1; left:20px; bottom:-.06em; font-size:clamp(6.5rem, 11vw, 9.5rem); color:transparent; -webkit-text-stroke:2px rgba(232,234,240,.85); filter:none; }
+.soul-text{ flex:none; padding:20px 24px 26px; }
+.soul-role{ margin-bottom:4px; font-size:.72rem; font-weight:600; letter-spacing:.2em; text-transform:uppercase; color:var(--t-soft); }
+.soul h3{ font-weight:200; font-size:clamp(2rem, 1.5rem + 1vw, 2.7rem); line-height:1.05; letter-spacing:-.01em; }
+.soul h3 b{ font-weight:700; }
+.soul-tag{ margin-top:8px; font-family:var(--font-display); font-weight:400; font-size:1rem; line-height:1.3; color:var(--ice); }
+.soul-hint{ position:absolute; z-index:4; right:14px; top:14px; display:inline-flex; align-items:center; gap:6px; padding:7px 13px; border-radius:999px; background:rgba(0,0,0,.55); border:1px solid var(--line-strong); font-size:.78rem; font-weight:600; color:var(--ice); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); }
+.soul-hint i{ font-size:1rem; color:var(--t-soft); }
+.soul-back{ transform:rotateY(180deg); gap:clamp(8px, 3cqw, 12px); padding:clamp(18px, 6.5cqw, 32px); overflow-y:auto; scrollbar-width:none; background:linear-gradient(180deg, rgba(var(--t-deep-rgb), .97), rgba(var(--t-panel-rgb), .98)); }
+.soul-back::-webkit-scrollbar{ display:none; }
+.soul-back .soul-tag{ margin-top:0; font-size:clamp(.95rem, 4.2cqw, 1.12rem); }
+.soul-back p:last-child{ font-size:clamp(.74rem, 3.6cqw, .93rem); line-height:1.55; color:var(--ink-soft); }
+.soul-player .soul-back p:last-child{ color:var(--ice); }
+@media (hover:hover) and (pointer:fine){ .soul:hover .soul-inner{ transform:rotateY(180deg); } }
+.soul:focus-visible .soul-inner, .soul.is-flipped .soul-inner{ transform:rotateY(180deg); }
+.soul:focus-visible .soul-face{ box-shadow:0 0 0 2px var(--t-soft); }
+@media (prefers-reduced-motion:reduce){ .soul-inner{ transition:none; } }
+
+/* sotto i 1100px le tre schede diventano un carosello (le schede ribaltate hanno bisogno di piu' altezza) */
+@media (max-width:1100px){
+  .soul-grid{ display:flex; flex-direction:row; align-items:stretch; position:relative; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; gap:16px; margin-inline:calc(-1 * var(--gut)); padding:0 var(--gut) 4px; scroll-padding-inline:var(--gut); scrollbar-width:none; -webkit-overflow-scrolling:touch; overscroll-behavior-x:contain; }
+  .soul-grid::-webkit-scrollbar{ display:none; }
+  .soul-grid > *{ flex:0 0 min(78vw, 340px); min-width:0; scroll-snap-align:start; margin:0; }
+  .soul-grid + .h-dots{ display:flex; justify-content:center; gap:7px; margin-top:14px; }
+  .soul-inner{ aspect-ratio:1 / 1.72; }
+}
+@media (max-width:760px){ .soul .soul-num{ font-size:6rem; } .soul-text{ padding:16px 18px 20px; } .soul h3{ font-size:1.9rem; } }
+
+/* ================= DENTOR: il saluto ================= */
+.symbol--stage .wrap{ text-align:center; }
+.dentor-stage{ container-type:inline-size; position:relative; display:grid; place-items:center; min-height:clamp(420px, 62vw, 760px); }
+.dentor-word{ position:absolute; z-index:1; left:0; right:0; top:34%; transform:translateY(-50%); text-align:center; font-size:21.5cqw; text-transform:uppercase; letter-spacing:-.02em; padding-right:.02em; white-space:nowrap; pointer-events:none; }
+.dentor-glow{ position:absolute; z-index:0; left:50%; top:62%; width:min(680px, 92%); aspect-ratio:1; translate:-50% -50%; border-radius:50%; background:radial-gradient(closest-side, rgba(var(--t-glow-rgb), .42), rgba(var(--t-glow-rgb), 0) 70%); pointer-events:none; }
+.dentor-rig{ position:relative; z-index:2; width:min(520px, 70vw); aspect-ratio:1100 / 1076; margin-top:clamp(70px, 10vw, 170px); animation:dr-float 5s ease-in-out infinite; animation-play-state:paused; will-change:transform; }
+.dentor-rig::after{ content:''; position:absolute; left:18%; right:18%; bottom:-3%; height:5%; border-radius:50%; background:radial-gradient(closest-side, rgba(0,0,0,.5), rgba(0,0,0,0)); z-index:-1; }
+.dr-body, .dr-arm{ position:absolute; inset:0; width:100%; height:100%; }
+.dr-arm{ transform-origin:29% 43.6%; animation:dr-wave 5s ease-in-out infinite; animation-play-state:paused; will-change:transform; }
+.dr-bubble{ position:absolute; z-index:3; left:-10%; top:-4%; padding:9px 20px; border-radius:20px 20px 20px 4px; background:var(--ice); color:#000; font-weight:700; font-size:clamp(1rem, .8rem + .9vw, 1.6rem); opacity:0; transform-origin:100% 100%; animation:dr-bubble 5s ease-out infinite; animation-play-state:paused; box-shadow:0 14px 30px -12px rgba(0,0,0,.6); }
+.dentor-rig.is-live, .dentor-rig.is-live .dr-arm, .dentor-rig.is-live .dr-bubble{ animation-play-state:running; }
+@keyframes dr-float{ 0%, 100%{ transform:translateY(0); } 50%{ transform:translateY(-12px); } }
+@keyframes dr-wave{
+  0%, 66%, 100%{ transform:rotate(0deg); }
+  7%{ transform:rotate(10deg); } 15%{ transform:rotate(-6deg); } 23%{ transform:rotate(10deg); } 31%{ transform:rotate(-6deg); }
+  39%{ transform:rotate(10deg); } 47%{ transform:rotate(-6deg); } 55%{ transform:rotate(10deg); } 62%{ transform:rotate(0deg); }
+}
+@keyframes dr-bubble{
+  0%, 3%{ opacity:0; transform:scale(.6) translateY(10px); }
+  9%{ opacity:1; transform:scale(1) translateY(0); }
+  58%{ opacity:1; transform:scale(1) translateY(0); }
+  66%, 100%{ opacity:0; transform:scale(.9) translateY(-4px); }
+}
+.dentor-copy{ max-width:46rem; margin:clamp(10px, 2vw, 28px) auto 0; }
+.dentor-copy .symbol-sub{ margin:0 0 16px; }
+.dentor-copy p:last-child{ color:var(--ink-soft); font-size:1.08rem; max-width:none; }
+@media (prefers-reduced-motion:reduce){ .dentor-rig, .dr-arm{ animation:none; } .dr-bubble{ display:none; } }
+@media (max-width:760px){ .dentor-stage{ min-height:clamp(320px, 92vw, 460px); } .dentor-rig{ width:min(78vw, 360px); } .dr-bubble{ left:-6%; } }
+
+
+/* ======================================================================
+   INDEX-03: leggibilita', raccordi tra sezioni, pilastri, sedi illustrate,
+   risultati, "Lavora con noi" compatto
+   ====================================================================== */
+
+/* 1) LEGGIBILITA': contrasto dei testi e pavimento sulle misure piccole; schermi grandi in scala */
+:root{ --ink-soft:rgba(232,234,240,.88); --ink-faint:rgba(232,234,240,.66); }
+.meta{ font-size:clamp(1.08rem, 1rem + .3vw, 1.25rem); }
+.eyebrow, .soul-role, .stat-label{ font-weight:600; }
+.eyebrow{ font-size:.84rem; }
+.soul-role{ font-size:.8rem; }
+.field label{ font-size:.92rem; color:var(--ice); }
+.consent{ font-size:.96rem; }
+.todo{ font-size:1rem; }
+.brand-body p, .brand-card p{ font-size:1.02rem; }
+.identity-text, .about-text p{ color:var(--ink-soft); }
+.dentor-copy p:last-child{ font-size:clamp(1.15rem, 1.02rem + .5vw, 1.35rem); line-height:1.65; color:var(--ice); max-width:42rem; margin-inline:auto; }
+.dentor-copy .symbol-sub{ font-size:clamp(1.3rem, 1.1rem + .9vw, 2rem); }
+.legal-row{ font-size:.9rem; }
+footer{ font-size:1rem; }
+footer h4{ font-size:.85rem; }
+@media (min-width:1800px){
+  html{ font-size:112.5%; }
+  body{ font-size:19px; }
+  .wrap{ max-width:1400px; }
+}
+
+/* 2) RACCORDI tra sezioni: i fondi bordeaux sfumano dentro e fuori dal nero, senza spigoli */
+#chi-siamo, #simbolo, #lavora-con-noi{
+  background:linear-gradient(180deg, #000 0%, var(--bg-3) clamp(140px, 16vw, 280px), var(--bg-3) calc(100% - clamp(140px, 16vw, 280px)), #000 100%);
+}
+
+/* 3) STORIA: i tre pilastri diventano righe a tutta larghezza (piu' grandi, tutte identiche) */
+.pillars{ display:block; max-width:68rem; margin-inline:auto; border-top:1px solid var(--line-strong); }
+.pillar{ display:grid; grid-template-columns:minmax(0, 1.25fr) minmax(0, 1fr); align-items:center; column-gap:clamp(20px, 4vw, 64px);
+  padding:clamp(22px, 3vw, 40px) clamp(4px, 1vw, 16px); border-radius:0; background:none; border-bottom:1px solid var(--line-strong);
+  container-type:inline-size; transition:background 400ms var(--ease-out); }
+.pillar::before{ display:none; }
+.pillar:hover{ background:linear-gradient(90deg, rgba(var(--t-glow-rgb), .10), rgba(var(--t-glow-rgb), 0) 70%); }
+.pillar h3{ margin:0; font-size:clamp(1.9rem, 5.4cqw, 3.4rem); line-height:1.05; white-space:nowrap; }
+.pillar h3 .p-art{ display:inline; margin:0; font-size:inherit; font-weight:200; color:var(--ice); }
+.pillar h3 b{ display:inline; font-size:inherit; font-weight:700; }
+.pillar p{ font-size:clamp(1.1rem, 1rem + .4vw, 1.3rem); line-height:1.5; color:var(--ink-soft); }
+.pillars-intro{ font-size:.86rem; }
+@media (max-width:860px){
+  .pillars{ grid-template-columns:none; }
+  .pillar{ grid-template-columns:1fr; row-gap:8px; }
+  .pillar h3{ font-size:clamp(1.9rem, 9.5cqw, 3rem); }
+}
+
+/* 4) SEDI: illustrazioni, nomi con lo stesso peso */
+.site-card .site-body h3{ font-weight:700; }
+.site-body address{ font-size:1.12rem; color:var(--ice); }
+.site-photo::after{ background:linear-gradient(0deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,0) 45%); }
+.site-card:hover .site-photo img{ transform:scale(1.03); }
+.site-photo img{ transition:transform 900ms var(--ease-out); }
+
+/* 5) RISULTATI: numeri piu' staccati e riga piu' piena */
+.stat-row{ gap:clamp(24px, 6vw, 110px); }
+.stat .num-xl{ font-size:clamp(3.4rem, 8.4vw, 9rem); }
+.stat + .stat{ position:relative; }
+.stat + .stat::before{ content:''; position:absolute; left:calc(-.5 * clamp(24px, 6vw, 110px)); top:12%; bottom:12%; width:1px; background:linear-gradient(180deg, rgba(var(--t-soft-rgb), 0), rgba(var(--t-soft-rgb), .45), rgba(var(--t-soft-rgb), 0)); }
+.stat-label{ font-size:clamp(.82rem, .7rem + .4vw, 1.05rem); }
+@media (max-width:640px){ .stat + .stat::before{ display:none; } }
+
+/* 6) ECOSISTEMA: scroll piu' corto */
+@media (min-width:981px){ .js-scroll .cubeshow{ height:360vh; } }
+
+/* 7) LAVORA CON NOI: fascia compatta, il modulo si apre con il pulsante */
+.join--compact .wrap{ text-align:center; }
+.join--compact .join-head h2{ max-width:20ch; margin-inline:auto; }
+.join--compact .join-roles{ justify-content:center; }
+.join--compact .todo{ max-width:40rem; margin-inline:auto; }
+.join--compact .join-note{ margin-inline:auto; max-width:44ch; font-size:1.12rem; }
+.join-toggle{ margin-top:30px; }
+.join-toggle .btn-icon i{ transition:transform 500ms var(--ease-drawer); }
+.join-toggle[aria-expanded="true"] .btn-icon i{ transform:rotate(180deg); }
+.join-panel{ display:grid; grid-template-rows:0fr; max-width:50rem; margin:0 auto; text-align:left; transition:grid-template-rows 700ms var(--ease-drawer), margin-top 700ms var(--ease-drawer); }
+.join-panel.is-open{ grid-template-rows:1fr; margin-top:40px; }
+.join-panel-in{ min-height:0; overflow:hidden; opacity:0; transition:opacity 500ms var(--ease-out); padding:2px; }
+.join-panel.is-open .join-panel-in{ opacity:1; transition-delay:150ms; }
+.join--compact .form-shell{ max-width:none; margin:0; }
+@media (prefers-reduced-motion:reduce){ .join-panel, .join-panel-in, .join-toggle .btn-icon i{ transition:none; } }
+
+/* 8) DENTOR su mobile: la scritta resta leggibile sopra la testa della mascotte */
+@media (max-width:760px){
+  .dentor-stage{ min-height:clamp(430px, 120vw, 580px); }
+  .dentor-word{ top:15%; }
+  .dentor-rig{ width:min(74vw, 340px); margin-top:clamp(56px, 22vw, 110px); }
+}
+
+/* 9) DENTOR vettoriale (da "Logo dente Group-modificato-per-animazione.ai"): corpo fermo, braccio con la manina fissa che ruota dalla spalla,
+   mantello sopra (con i suoi contorni neri) a nascondere il giunto. Livelli separati e promossi a livello grafico: il browser li disegna una volta e poi li ruota soltanto.
+   Stessa durata (5s) e stessi tempi del vecchio saluto, cosi' il fumetto "Ciao!" resta in sincronia. */
+.dentor-rig{ aspect-ratio:590 / 580; }
+.dr3-defs{ position:absolute; width:0; height:0; overflow:hidden; }
+.dr3-layer{ position:absolute; inset:0; width:100%; height:100%; overflow:visible; }
+.dr3-arm{ position:absolute; inset:0; transform-origin:30.8% 43.4%; will-change:transform; animation:dr3-arm 5s ease-in-out infinite; animation-play-state:paused; }
+.dentor-rig.is-live .dr3-arm{ animation-play-state:running; }
+@keyframes dr3-arm{
+  0%, 62%, 100%{ transform:rotate(0); }
+  7%, 23%, 39%{ transform:rotate(-12deg); }
+  15%, 31%, 47%{ transform:rotate(8deg); }
+  55%{ transform:rotate(-8deg); }
+}
+@media (prefers-reduced-motion:reduce){ .dr3-arm{ animation:none; } }
