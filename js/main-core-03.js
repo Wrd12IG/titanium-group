@@ -26,8 +26,8 @@
   if (hasGsap){
     gsap.registerPlugin(ScrollTrigger);
     ScrollTrigger.config({ ignoreMobileResize: true, limitCallbacks: true });
-    ScrollTrigger.create({ trigger: document.body, start: 'top -80', end: 'max', onToggle: function(s){ topbar.classList.toggle('is-solid', s.isActive); } });
-    ScrollTrigger.create({ trigger: '.hero-pin', start: 'top -22%', end: 'max', onToggle: function(s){ stack.classList.toggle('show-cta', s.isActive); } });
+    ScrollTrigger.create({ trigger: document.body, start: 'top -80', end: function(){ return ScrollTrigger.maxScroll(window) + 4000; }, onToggle: function(s){ topbar.classList.toggle('is-solid', s.isActive); } });
+    ScrollTrigger.create({ trigger: '.hero-pin', start: 'top -22%', end: function(){ return ScrollTrigger.maxScroll(window) + 4000; }, onToggle: function(s){ stack.classList.toggle('show-cta', s.isActive); } });
   } else {
     stack.classList.add('show-cta');
     topbar.classList.add('is-solid');
